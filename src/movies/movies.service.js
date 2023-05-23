@@ -21,5 +21,5 @@ async function read(movie_id){
 
 module.exports = {
   list,
-  read
+  read,
 };

@@ -13,7 +13,16 @@ async function reviewExists(req, res, next) {
 }
 
 async function read(req, res) {
-    const data = await service.list()
+    const {movieId} = req.params;
+
+    const data = await service.list(movieId)
+    data.map((review, indx)=>{
+        return review.critic = review.critic[0]
+    })
+    //without this map function, the critic property is an array with a single object inside
+    //is there a better way to extract the object???
+
+    //console.log("data", data)
     res.json({ data });
 }
 
@@ -24,24 +33,19 @@ async function update(req, res, next) {
         review_id: res.locals.review.review_id,
     };
     
-
     const criticId = updatedReview.critic_id
     const critic = await service.readCritic(criticId)
 
-
-    //data.critic = //something, how we get the critic
     await service.update(updatedReview);
 
     const update = await service.read(res.locals.review.review_id)
 
     const data = update;
-    console.log('response data & update: ', data, update)
-    console.log('critic: ', critic)
+    //console.log('response data & update: ', data, update)
+    //console.log('critic: ', critic)
+
     data.critic = critic
-    console.log("RESPONSE W/Critic",data)
-
-
-
+    //console.log("RESPONSE W/Critic",data)
 
     res.json({ data });
 }
@@ -50,10 +54,10 @@ async function destroy(req, res, next) {
     const { reviewId } = req.params
     const data = await service.delete(reviewId);
     res.sendStatus(204);
-  }
+}
 
 module.exports = {
-    read,
+    read: [asyncErrorBoundary(read)],
     update: [asyncErrorBoundary(reviewExists), asyncErrorBoundary(update)],
     delete: [asyncErrorBoundary(reviewExists), asyncErrorBoundary(destroy)],
 };
