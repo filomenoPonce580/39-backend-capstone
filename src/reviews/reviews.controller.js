@@ -14,15 +14,13 @@ async function reviewExists(req, res, next) {
 
 async function read(req, res) {
     const {movieId} = req.params;
+    const data = await service.list(movieId);
 
-    const data = await service.list(movieId)
+    //access first element/object of 'critic' properties array.
     data.map((review, indx)=>{
         return review.critic = review.critic[0]
-    })
-    //without this map function, the critic property is an array with a single object inside
-    //is there a better way to extract the object???
+    });
 
-    //console.log("data", data)
     res.json({ data });
 }
 
@@ -33,19 +31,19 @@ async function update(req, res, next) {
         review_id: res.locals.review.review_id,
     };
     
-    const criticId = updatedReview.critic_id
-    const critic = await service.readCritic(criticId)
+    //access critic & store data
+    const criticId = updatedReview.critic_id;
+    const critic = await service.readCritic(criticId);
 
+    //update review
     await service.update(updatedReview);
 
-    const update = await service.read(res.locals.review.review_id)
+    //read updated review
+    const update = await service.read(res.locals.review.review_id);
 
+    //set data to the updated review, inject critic data as critic property 
     const data = update;
-    //console.log('response data & update: ', data, update)
-    //console.log('critic: ', critic)
-
-    data.critic = critic
-    //console.log("RESPONSE W/Critic",data)
+    data.critic = critic;
 
     res.json({ data });
 }

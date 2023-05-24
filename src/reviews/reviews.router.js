@@ -9,6 +9,6 @@ router.route("/:reviewId")
   .all(methodNotAllowed);
 
 router.route("/")
-    .get(controller.read)
+  .get(controller.read)
 
 module.exports = router;

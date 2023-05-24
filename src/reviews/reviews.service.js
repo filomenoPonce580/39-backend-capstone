@@ -8,14 +8,13 @@ function readCritic(criticId){
     return knex("critics").select("*").where({critic_id: criticId}).first();
 }
 
-//OG, not with critic inside
+
 function update(updatedReview) {
       return knex("reviews")
         .select("*")
         .where({ review_id: updatedReview.review_id })
         .update(updatedReview, "*");
 }
-
 
 
 function destroy(reviewId) {
@@ -36,8 +35,6 @@ const reduceCritics = reduceP("review_id", {
 
 });
 
-//const mapP = require("../utils/map-properties");
-//const mapProps = mapP(reduceCritics)
 
 function list(movieId){
     return knex("reviews as r")
