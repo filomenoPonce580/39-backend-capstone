@@ -1,6 +1,8 @@
 const knex = require("../db/connection");
 const reduceP = require("../utils/reduce-properties");
 
+//creates array of movie objects with required properties
+//chain on to list function
 const reduceMovies = reduceP("theater_id", {
   movie_id: ["movies", null, "movie_id"],
   title: ["movies", null, "title"],
@@ -16,8 +18,6 @@ function list() {
     .join("movies as m", "m.movie_id", "mt.movie_id")
     .then(reduceMovies)
 }
-
-
 
 module.exports = {
     list,

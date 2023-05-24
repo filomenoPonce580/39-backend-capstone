@@ -1,5 +1,21 @@
 const knex = require("../db/connection");
 
+//-------- use these for list function( path: /movies/:movieId/reviews)---------
+
+const reduceP = require("../utils/reduce-properties");
+
+//creates critic object with required properties
+const reduceCritics = reduceP("review_id", {
+    critic_id: ["critic", null, "critic_id"],
+    preferred_name: ["critic", null, "preferred_name"],
+    surname: ["critic", null, "surname"],
+    organization_name: ["critic", null, "organization_name"],
+    created_at: ["critic", null, "created_at"],
+    updated_at: ["critic", null, "updated_at"]
+});
+
+//----------------------------------------------------
+
 function read(reviewId) {
     return knex("reviews").select("*").where({ review_id: reviewId }).first();
 }
@@ -8,7 +24,6 @@ function readCritic(criticId){
     return knex("critics").select("*").where({critic_id: criticId}).first();
 }
 
-
 function update(updatedReview) {
       return knex("reviews")
         .select("*")
@@ -16,25 +31,9 @@ function update(updatedReview) {
         .update(updatedReview, "*");
 }
 
-
 function destroy(reviewId) {
     return knex("reviews").where({review_id: reviewId}).del();
 }
-
-
-//-------- FOR LIST(/movies/:movieId/reviews)-----------
-
-const reduceP = require("../utils/reduce-properties");
-const reduceCritics = reduceP("review_id", {
-    critic_id: ["critic", null, "critic_id"],
-    preferred_name: ["critic", null, "preferred_name"],
-    surname: ["critic", null, "surname"],
-    organization_name: ["critic", null, "organization_name"],
-    created_at: ["critic", null, "created_at"],
-    updated_at: ["critic", null, "updated_at"]
-
-});
-
 
 function list(movieId){
     return knex("reviews as r")
@@ -42,7 +41,6 @@ function list(movieId){
         .select("*").where({movie_id: movieId})
         .then(reduceCritics);
 }
-//------
 
 module.exports = {
     list,
