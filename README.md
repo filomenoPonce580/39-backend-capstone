@@ -7,6 +7,7 @@ https://three9-backend-capstone.onrender.com/
 
 For the frontend, please visit this (https://github.com/Thinkful-Ed/starter-movie-front-end).
 
+
 # Getting Started
 To get started with this project, follow these steps:
 
@@ -24,7 +25,6 @@ Run the knex migrations with npm knex migrate:latest
 
 Seed your database with npm run seed
 
-# API Calls
 
 # API Calls
 
@@ -55,6 +55,7 @@ Seed your database with npm run seed
 
 **GET** 
 > Lists data of the theaters in which the specified movie is showing.
+
 
 # Running Tests
 This project includes a set of tests that can be run using the command line. To run the tests, use the command npm test.
