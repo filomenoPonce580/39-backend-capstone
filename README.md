@@ -24,13 +24,45 @@ Run the knex migrations with npm knex migrate:latest
 
 Seed your database with npm run seed
 
+# API Calls
+
+# API Calls
+
+### Path: /movies
+
+**GET** 
+> Lists data of all movies in database.
+
+### Path: /movies/{movieId}
+
+**GET** 
+> Lists data of specified movie.
+
+### Path: movies/{movieId}/reviews
+
+**GET** 
+> Lists data of all reviews of the specified movie.
+
+### Path: movies/{movieId}/reviews/{reviewId}
+
+**GET** 
+> Lists data of the specified review of the specified movie.
+
+**DELETE**
+> Deletes the specified review.
+
+### Path: movies/{movieId}/theaters/
+
+**GET** 
+> Lists data of the theaters in which the specified movie is showing.
+
 # Running Tests
 This project includes a set of tests that can be run using the command line. To run the tests, use the command npm test.
 
 # Project Takeaways
 During the project, I gained several key takeaways, including:
 
-Creating and using common middleware packages
+Creating and using standard middleware packages
 Implementing error handlers for non-existent routes and incorrect requests
 Building an API following RESTful design principles
 Building and receiving requests through routes
